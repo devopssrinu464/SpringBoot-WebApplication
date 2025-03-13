@@ -70,6 +70,14 @@ pipeline {
                     sh "trivy image adijaiswal/webapp:latest "
             }
         }
-        
+          stage('Deploy to Docker') {
+            steps {
+               script{
+                   withDockerRegistry(credentialsId: '84d65fc5-2e73-4325-aabf-e84f7b781fbd') {
+                    sh "docker run -d --name to-do-app -p 4000:4000 devopssep/todoapp:latest "
+                   }
+               }
+            }
+          }
     }
 }
