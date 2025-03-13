@@ -25,7 +25,7 @@ pipeline {
         
         stage('Run Test Cases') {
             steps {
-                    sh "mvn test package"
+                    sh "mvn test"
             }
         }
         
@@ -49,7 +49,7 @@ pipeline {
         
         stage('Maven Build') {
             steps {
-                    sh "mvn clean compile"
+                    sh "mvn clean package"
             }
         }
         
