@@ -40,12 +40,12 @@ pipeline {
             }
         }
         
-        stage('OWASP Dependency Check') {
-            steps {
-                   dependencyCheck additionalArguments: '--scan ./   ', odcInstallation: 'DP'
-                   dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
-            }
-        }
+        //stage('OWASP Dependency Check') {
+          //  steps {
+            //       dependencyCheck additionalArguments: '--scan ./   ', odcInstallation: 'DP'
+              //     dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+            //}
+        //}
         
         stage('Maven Build') {
             steps {
@@ -56,10 +56,10 @@ pipeline {
         stage('Docker Build & Push') {
             steps {
                    script {
-                       withDockerRegistry(credentialsId: 'b289dc43-2ede-4bd0-95e8-75ca26100d8d', toolName: 'docker') {
+                       withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
                             sh "docker build -t webapp ."
-                            sh "docker tag webapp adijaiswal/webapp:latest"
-                            sh "docker push adijaiswal/webapp:latest "
+                            sh "docker tag webapp devopssep/webapp:latest"
+                            sh "docker push devopssep/webapp:latest "
                         }
                    } 
             }
@@ -67,14 +67,14 @@ pipeline {
         
         stage('Docker Image scan') {
             steps {
-                    sh "trivy image adijaiswal/webapp:latest "
+                    sh "trivy image devopssep/webapp:latest "
             }
         }
           stage('Deploy to Docker') {
             steps {
                script{
-                   withDockerRegistry(credentialsId: '84d65fc5-2e73-4325-aabf-e84f7b781fbd') {
-                    sh "docker run -d --name to-do-app -p 4000:4000 devopssep/todoapp:latest "
+                   withDockerRegistry(credentialsId: 'docker-cred') {
+                    sh "docker run -d --name webapp -p 4000:4000 devopssep/todoapp:latest "
                    }
                }
             }
