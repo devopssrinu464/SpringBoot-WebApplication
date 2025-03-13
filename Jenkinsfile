@@ -67,7 +67,7 @@ pipeline {
         
         stage('Docker Image scan') {
             steps {
-                    sh "trivy image devopssep/webapp:latest"
+                    sh "trivy image --severity HIGH,CRITICAL devopssep/webapp:latest"
             }
         }
           stage('Deploy to Docker') {
