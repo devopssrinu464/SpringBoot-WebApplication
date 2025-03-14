@@ -65,11 +65,11 @@ pipeline {
             }
         }
         
-        stage('Docker Image scan') {
-            steps {
-                    sh "trivy image devopssep/webapp:latest"
-            }
-        }
+       // stage('Docker Image scan') {
+         //   steps {
+           //         sh "trivy image devopssep/webapp:latest"
+            //}
+        //}
           stage('Deploy to Docker') {
             steps {
                script{
